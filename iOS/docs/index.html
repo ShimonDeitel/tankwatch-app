@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tankwatch — Gas Tank Tracker</title>
+<meta name="description" content="Track propane and gas tank levels. Never run out mid-cookout again.">
+<style>
+  :root{
+    --charcoal:#191B1D;
+    --charcoal-elevated:#25272A;
+    --charcoal-card:#2E3033;
+    --cream:#F2E8D4;
+    --cream-dim:#C7BFAF;
+    --rust:#C85D2D;
+    --rust-bright:#E67338;
+    --amber:#DDA23E;
+    --brass:#B39851;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--charcoal);
+    color:var(--cream);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    overflow-x:hidden;
+  }
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
+    position:relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(200,93,45,0.12), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(221,162,62,0.10), transparent 45%);
+    pointer-events:none;
+  }
+  h1{
+    font-size:clamp(2.2rem, 6vw, 3.8rem);
+    margin:24px 0 8px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .tagline{
+    color:var(--cream-dim);
+    font-size:1.15rem;
+    max-width:520px;
+    margin:0 0 32px;
+  }
+  .gauge-wrap{
+    display:flex;
+    gap:28px;
+    align-items:flex-end;
+    margin-bottom:8px;
+  }
+  .gauge{
+    width:64px;
+    height:160px;
+    border-radius:18px;
+    background:var(--charcoal-elevated);
+    border:2px solid rgba(242,232,212,0.15);
+    position:relative;
+    overflow:hidden;
+  }
+  .gauge .fill{
+    position:absolute;
+    left:4px; right:4px; bottom:4px;
+    border-radius:14px;
+    background:linear-gradient(to bottom, var(--fill-top), var(--fill-bottom));
+    animation:fillmove 3.6s ease-in-out infinite;
+  }
+  .gauge.full{ --fill-top:#c2a45f; --fill-bottom:var(--brass); }
+  .gauge.mid{ --fill-top:#e8b45a; --fill-bottom:var(--amber); }
+  .gauge.low{ --fill-top:var(--rust-bright); --fill-bottom:var(--rust); }
+
+  .gauge.full .fill{ height:78%; animation-delay:0s; }
+  .gauge.mid .fill{ height:42%; animation-delay:0.4s; }
+  .gauge.low .fill{ height:12%; animation-delay:0.8s; }
+
+  @keyframes fillmove{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-4px); }
+  }
+
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--brass);
+    color:var(--charcoal);
+    font-weight:700;
+    padding:14px 30px;
+    border-radius:999px;
+    text-decoration:none;
+    margin-top:20px;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow:0 8px 24px rgba(0,0,0,0.35);
+  }
+  .cta:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,0.4); }
+
+  section.features{
+    padding:80px 20px;
+    max-width:960px;
+    margin:0 auto;
+  }
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:24px;
+    margin-top:40px;
+  }
+  .feature-card{
+    background:var(--charcoal-card);
+    border-radius:20px;
+    padding:28px;
+    border:1px solid rgba(242,232,212,0.06);
+  }
+  .feature-card h3{
+    margin:0 0 10px;
+    color:var(--cream);
+    font-size:1.15rem;
+  }
+  .feature-card p{
+    color:var(--cream-dim);
+    line-height:1.6;
+    margin:0;
+    font-size:0.95rem;
+  }
+  .section-title{
+    text-align:center;
+    font-size:2rem;
+    font-weight:800;
+    margin:0;
+  }
+  .badge{
+    display:inline-block;
+    color:var(--rust-bright);
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:0.8rem;
+    margin-bottom:6px;
+  }
+  footer{
+    text-align:center;
+    padding:40px 20px 60px;
+    color:var(--cream-dim);
+    font-size:0.85rem;
+  }
+  footer a{ color:var(--amber); text-decoration:none; margin:0 8px; }
+  footer a:hover{ text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="badge">Propane · Gas · Oil</span>
+  <div class="gauge-wrap">
+    <div class="gauge full"><div class="fill"></div></div>
+    <div class="gauge mid"><div class="fill"></div></div>
+    <div class="gauge low"><div class="fill"></div></div>
+  </div>
+  <h1>Tankwatch</h1>
+  <p class="tagline">Track every propane tank, gas can, and oil tank you own. Log a quick level check, and Tankwatch tells you exactly which one to refill first.</p>
+  <a class="cta" href="#features">See how it works</a>
+</div>
+
+<section class="features" id="features">
+  <h2 class="section-title">Never guess at the gauge again</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>Track every tank</h3>
+      <p>Grill propane, generator gas cans, camping bottles, heating oil — add as many tanks as you own, each with its own capacity and unit.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Log a level check</h3>
+      <p>Estimate percent-full with a weight-based rule of thumb or a quick visual check, and watch the gauge animate to match.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Know what's low</h3>
+      <p>Full, Getting Low, or Refill Soon — status updates instantly from your latest reading, no math required.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Refill this one first</h3>
+      <p>Tankwatch always surfaces the single tank with the lowest most-recent reading, so you know exactly where to start.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Tankwatch. All rights reserved.</p>
+  <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a>
+</footer>
+
+</body>
+</html>
