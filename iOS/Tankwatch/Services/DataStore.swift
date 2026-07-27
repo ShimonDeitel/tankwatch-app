@@ -17,6 +17,21 @@ final class DataStore: ObservableObject {
         if loadFromDisk {
             load()
         }
+
+        if ProcessInfo.processInfo.environment["TANKWATCH_SEED_SCREENSHOTS"] == "1", tanks.isEmpty {
+            let propane = Tank(name: "Propane Grill", capacityUnit: .lbs, capacityAmount: 20)
+            let heatingOil = Tank(name: "Heating Oil", capacityUnit: .gallons, capacityAmount: 275)
+            let camper = Tank(name: "Camper Propane", capacityUnit: .lbs, capacityAmount: 30)
+            tanks = [propane, heatingOil, camper]
+
+            let cal = Calendar.current
+            readings = [
+                Reading(tankID: propane.id, date: cal.date(byAdding: .day, value: -3, to: Date())!, percentFull: 12),
+                Reading(tankID: heatingOil.id, date: cal.date(byAdding: .day, value: -10, to: Date())!, percentFull: 65),
+                Reading(tankID: camper.id, date: cal.date(byAdding: .day, value: -30, to: Date())!, percentFull: 90)
+            ]
+            persist()
+        }
     }
 
     // MARK: - Tanks
